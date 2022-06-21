@@ -104,6 +104,19 @@ namespace Agent
         {
             return list.Take(pageEnd).Skip(pageStart);
         }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var productForDelete = ProductsList.SelectedItem as Product;
+            agentContext.Products.Remove(productForDelete);
+            agentContext.SaveChanges();
+            Handle();
+        }
+
+        private void EditMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
 

@@ -49,8 +49,8 @@ namespace Agent
             modelBuilder.Entity<ProductMaterial>(x =>
             {
                 x.HasKey(x => new { x.ProductId, x.MaterialId });
-                x.HasOne(x => x.Product).WithMany(x => x.ProductMaterials).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.NoAction);
-                x.HasOne(x => x.Material).WithMany(x => x.ProductMaterials).HasForeignKey(x => x.MaterialId).OnDelete(DeleteBehavior.NoAction);
+                x.HasOne(x => x.Product).WithMany(x => x.ProductMaterials).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
+                x.HasOne(x => x.Material).WithMany(x => x.ProductMaterials).HasForeignKey(x => x.MaterialId).OnDelete(DeleteBehavior.Cascade);
             });
             modelBuilder.Entity<MaterialSupplier>(x =>
             {
