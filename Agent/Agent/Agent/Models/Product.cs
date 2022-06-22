@@ -25,36 +25,6 @@ namespace Agent.Models
         public ICollection<ProductMaterial> ProductMaterials { get; set; }
         public ICollection<ProductCostHistory> ProductCostHistories { get; set; }
 
-        public Product(
-            int id,
-            string title,
-            int productTypeId,
-            string articleNumber,
-            string description,
-            string image,
-            int productionPersonCount,
-            int productionWorkshopNumber,
-            decimal minCostForAgent,
-            ProductType productType,
-            decimal? cost
-            )
-        {
-            Id = id;
-            Title = title;
-            ProductTypeId = productTypeId;
-            ArticleNumber = articleNumber;
-            Description = description;
-            Image = image;
-            ProductionPersonCount = productionPersonCount;
-            ProductionWorkshopNumber = productionWorkshopNumber;
-            MinCostForAgent = minCostForAgent;
-            ProductType = productType;
-        }
-        public Product()
-        {
-
-        }
-
     }
 
 }

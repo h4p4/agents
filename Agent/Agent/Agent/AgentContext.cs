@@ -30,6 +30,11 @@ namespace Agent
             {
                 x.Property(x => x.CountInStock).IsRequired(false);
                 x.Property(x => x.Image).IsRequired(false);
+                x
+                .HasOne(x => x.MaterialType)
+                .WithMany(x => x.Materials)
+                .HasForeignKey(x => x.MaterialTypeId)
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Product>(x =>

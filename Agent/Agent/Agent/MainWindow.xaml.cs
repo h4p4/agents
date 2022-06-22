@@ -20,6 +20,7 @@ namespace Agent
             types.Insert(0, new ProductType { Title = "--Фильтрация--" });
             FilterCBox.ItemsSource = types;
             FilterCBox.SelectedIndex = 0;
+
             list = ListFill();
             ProductsList.ItemsSource = MakeGap().ToList();
             agentContext.Database.EnsureCreated();
@@ -115,7 +116,18 @@ namespace Agent
 
         private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            AddEditProductWindow window = new AddEditProductWindow(ProductsList.SelectedItem as Product);
+            window.ShowDialog();
+            agentContext.SaveChanges();
+            Handle();
+        }
 
+        private void AddBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditProductWindow window = new AddEditProductWindow();
+            window.ShowDialog();
+            agentContext.SaveChanges();
+            Handle();
         }
     }
 }

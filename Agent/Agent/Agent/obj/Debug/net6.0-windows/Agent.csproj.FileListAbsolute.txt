@@ -253,3 +253,5 @@ E:\Desktop\agents\Agent\Agent\Agent\obj\Debug\net6.0-windows\refint\Agent.dll
 E:\Desktop\agents\Agent\Agent\Agent\obj\Debug\net6.0-windows\Agent.pdb
 E:\Desktop\agents\Agent\Agent\Agent\obj\Debug\net6.0-windows\Agent.genruntimeconfig.cache
 E:\Desktop\agents\Agent\Agent\Agent\obj\Debug\net6.0-windows\ref\Agent.dll
+E:\Desktop\agents\Agent\Agent\Agent\obj\Debug\net6.0-windows\AddEditProductWindow.g.cs
+E:\Desktop\agents\Agent\Agent\Agent\obj\Debug\net6.0-windows\AddEditProductWindow.baml
