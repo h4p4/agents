@@ -37,12 +37,12 @@
                     <TextBlock Text="Тип продукта:" Margin="0 0 0 7.5"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <TextBox Text="{Binding Title}" Margin="0 0 0 5" HorizontalAlignment="Left" Width="140"/>
-                    <TextBox Text="{Binding ArticleNumber}" Margin="0 0 0 39.5" HorizontalAlignment="Left" Width="65" MaxWidth="145"/>
-                    <TextBox Text="{Binding ProductionPersonCount}" Margin="0 0 0 5"  HorizontalAlignment="Left" Width="25"/>
-                    <TextBox Text="{Binding ProductionWorkshopNumber}" Margin="0 0 0 23" HorizontalAlignment="Left" Width="25"/>
-                    <TextBox Text="{Binding MinCostForAgent}" Margin="0 0 0 5"  HorizontalAlignment="Left" Width="65"/>
-                    <ComboBox Margin="0 0 0 5"  HorizontalAlignment="Left" Width="65"
+                    <TextBox Name="TitleTBox" Text="{Binding Title}" Margin="0 0 0 5" HorizontalAlignment="Left" Width="140"/>
+                    <TextBox Name="ArticleTBox" Text="{Binding ArticleNumber}" Margin="0 0 0 39.5" HorizontalAlignment="Left" Width="65" MaxWidth="145"/>
+                    <TextBox Name="PersonCountTBox" Text="{Binding ProductionPersonCount}" Margin="0 0 0 5"  HorizontalAlignment="Left" Width="25"/>
+                    <TextBox Name="WorkshopNumberTBox" Text="{Binding ProductionWorkshopNumber}" Margin="0 0 0 23" HorizontalAlignment="Left" Width="25"/>
+                    <TextBox Name="MinCostTBox" Text="{Binding MinCostForAgent}" Margin="0 0 0 5"  HorizontalAlignment="Left" Width="65"/>
+                    <ComboBox Margin="0 0 0 5"  HorizontalAlignment="Left" Width="95"
                               Name="ProductTypeCBox"
                               SelectedValuePath="Id"
                               DisplayMemberPath="Title">
@@ -53,7 +53,7 @@
         <Border Grid.Column="1" Margin="10">
             <StackPanel>
                 <TextBlock Text="Описание:" Margin="0 0 0 7"/>
-                <TextBox Text="{Binding Description}" MaxHeight="144" TextWrapping="Wrap"></TextBox>
+                <TextBox Name="DescriptionTBox" Text="{Binding Description}" MaxHeight="144" TextWrapping="Wrap"></TextBox>
             </StackPanel>
         </Border>
         <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="10">

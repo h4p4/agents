@@ -85,7 +85,7 @@ namespace Agent
                         break;
                 }
             if (ProductsList != null && list != null) // если не пустой и текст нашелся
-                ProductsList.ItemsSource = MakeGap().ToList();
+               ProductsList.ItemsSource = MakeGap().ToList();
         }
 
         private void ChangePage(int a, bool condition)

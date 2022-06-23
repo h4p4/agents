@@ -99,6 +99,8 @@ namespace Agent
         private void AddNewMaterialForProduct()
         {
             var newMaterial = AvailableMaterialsDGrid.SelectedItem as Material;
+            if (!IsExists(newMaterial))
+                return;
             var newProductMaterial = new ProductMaterial()
             {
                 ProductId = _product.Id,
@@ -109,6 +111,8 @@ namespace Agent
             newProductMaterials.Add(newProductMaterial);
             db.SaveChanges();
             UpdateAllLists();
+
+
         }
 
         private void AvailableMaterialsDGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -127,15 +131,54 @@ namespace Agent
         private void SubmitChangesBtn_Click(object sender, RoutedEventArgs e)
         {
             _exitMode = "save";
+            if (String.IsNullOrWhiteSpace(TitleTBox.Text) || TitleTBox.Text == "Название" ||
+                String.IsNullOrWhiteSpace(ArticleTBox.Text) || ArticleTBox.Text == "000000" ||
+                String.IsNullOrWhiteSpace(MinCostTBox.Text) || MinCostTBox.Text == "0"
+                )
+            {
+                MessageBox.Show(
+                    "Следующие поля обязательны к заполнению: \n" +
+                    "Название, Артикул, Мин. Стоимость.");
+                return;
+            }
+            var pr = db.Products.Where(x => x.Id == _product.Id).First();
+
+
+            pr.Title = TitleTBox.Text;
+            pr.ArticleNumber = ArticleTBox.Text;
+            string stringCost = null;
+            try
+            {
+                if (MinCostTBox.Text.Contains(','))
+                    stringCost = stringCost.Replace(',', '.');
+                stringCost = MinCostTBox.Text.Substring(0, MinCostTBox.Text.IndexOf('.'));
+            }
+            catch (Exception)
+            { 
+                pr.MinCostForAgent = Decimal.Parse(MinCostTBox.Text);
+            }
+            if (!String.IsNullOrWhiteSpace(stringCost))
+                pr.MinCostForAgent = Decimal.Parse(stringCost);
+            pr.Description = DescriptionTBox.Text;
+            try
+            { pr.ProductionPersonCount = Int32.Parse(PersonCountTBox.Text); }
+            catch (Exception) { }
+            try
+            { pr.ProductionWorkshopNumber = Int32.Parse(WorkshopNumberTBox.Text); }
+            catch (Exception) { }
+            pr.ProductType = db.ProductTypes.Where(x => x.Title == ProductTypeCBox.Text).First();
+            pr.ProductTypeId = db.ProductTypes.Where(x => x.Title == ProductTypeCBox.Text).First().Id;
+            db.SaveChanges();
             this.Close();
         }
         private void Window_Closed(object sender, EventArgs e)
         {
             if (_mode == "add" && _exitMode == "delete")
             {
+                db.ProductMaterials.RemoveRange(newProductMaterials);
                 db.Products.Remove(_product);
-                db.ProductMaterials.RemoveRange(deletedProductMaterials);
                 db.SaveChanges();
+                UpdateAllLists();
                 return;
             }
             if (_mode == "edit" && _exitMode == "delete")
@@ -143,23 +186,31 @@ namespace Agent
                 db.ProductMaterials.AddRange(deletedProductMaterials);
                 db.ProductMaterials.RemoveRange(newProductMaterials);
                 db.SaveChanges();
+                UpdateAllLists();
                 return;
             }
-
+            UpdateAllLists();
             db.SaveChanges();
         }
         private void DeleteMaterialMnItem_Click(object sender, RoutedEventArgs e)
         {
+            DeleteMaterial();
+        }
+        private void DeleteMaterial()
+        {
             var selectedProductMaterial = MaterialsDGrid.SelectedItem as ProductMaterial;
+            if (!IsExists(selectedProductMaterial))
+                return;
             deletedProductMaterials.Add(selectedProductMaterial);
             db.ProductMaterials.Remove(selectedProductMaterial);
             db.SaveChanges();
             UpdateAllLists();
         }
-
         private void IncreaseCountMnItem_Click(object sender, RoutedEventArgs e)
         {
             var selectedProductMaterial = MaterialsDGrid.SelectedItem as ProductMaterial;
+            if (!IsExists(selectedProductMaterial))
+                return;
             selectedProductMaterial.Count++;
             //var a = db.ProductMaterials.Where(x => x.ProductId == selectedProductMaterial.ProductId && x.MaterialId == selectedProductMaterial.MaterialId).FirstOrDefault();
             //a.Count++;
@@ -170,10 +221,27 @@ namespace Agent
         private void DecreaseCountMnItem_Click(object sender, RoutedEventArgs e)
         {
             var selectedProductMaterial = MaterialsDGrid.SelectedItem as ProductMaterial;
-            selectedProductMaterial.Count--;
-
-            db.SaveChanges();
-            UpdateAllLists();
+            if (!IsExists(selectedProductMaterial))
+                return;
+                selectedProductMaterial.Count--;
+                if (selectedProductMaterial.Count <= 0)
+                    DeleteMaterial();
+                db.SaveChanges();
+                UpdateAllLists();
+        }
+        private bool IsExists(ProductMaterial pm)
+        {
+            if (pm != null)
+                return true;
+            MessageBox.Show("Материал не выбран!", "Material not found", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
+        }
+        private bool IsExists(Material m)
+        {
+            if (m != null)
+                return true;
+            MessageBox.Show("Материал не выбран!", "Material not found", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
         }
     }
 }
